@@ -2,12 +2,12 @@ name: Build
 
 on: [push, workflow_dispatch]
 
-
 jobs:
   build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Build
         run: |
           xcodebuild \
@@ -17,16 +17,17 @@ jobs:
             -sdk iphoneos \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO
-           - name: Package
+
+      - name: Package
         run: |
           cd build/Build/Products/Release-iphoneos
           ls -la
           mkdir Payload
           cp -r *.app Payload/
-          zip -r app.ipa Payload
+          zip -r clearsword.ipa Payload
+
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: app
-          path: build/Build/Products/Release-iphoneos/app.ipa
-
+          name: clearsword
+          path: build/Build/Products/Release-iphoneos/clearsword.ipa
