@@ -1,1 +1,31 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          xcodebuild \
+            -project YourApp.xcodeproj \
+            -scheme YourApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
+      - name: Package
+        run: |
+          cd build/Build/Products/Release-iphoneos
+          mkdir Payload && cp -r YourApp.app Payload/
+          zip -r YourApp.ipa Payload
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: YourApp
+          path: build/Build/Products/Release-iphoneos/YourApp.ipa
 
