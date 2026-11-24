@@ -12,8 +12,8 @@ jobs:
       - name: Build
         run: |
           xcodebuild \
-            -project YourApp.xcodeproj \
-            -scheme YourApp \
+            -project clearsword.xcodeproj \
+            -scheme clearsword \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
@@ -22,10 +22,10 @@ jobs:
         run: |
           cd build/Build/Products/Release-iphoneos
           mkdir Payload && cp -r YourApp.app Payload/
-          zip -r YourApp.ipa Payload
+          zip -r clearsword.ipa Payload
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: YourApp
+          name: clearsword
           path: build/Build/Products/Release-iphoneos/YourApp.ipa
 
